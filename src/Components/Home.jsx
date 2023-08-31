@@ -7,8 +7,14 @@ import '../Styles/home.css';
 import { FaCalendarAlt } from 'react-icons/fa';
 import { FaUserFriends } from 'react-icons/fa';
 import { FaBed } from 'react-icons/fa';
-
+import  {  useRef } from 'react';
 import { Link, Element } from 'react-scroll';
+
+const scrollToTop = () => {
+  window.scrollTo({ top: 0, behavior: 'auto' });
+};
+
+
 
 const ReadMore = ({ children, maxCharacterCount = 200 }) => {
   const text = children;
@@ -60,6 +66,24 @@ const CollapsiblePanel = ({ title, content, isExpanded, onToggle }) => {
 
 
 const Home = () => {
+   const images = [
+    './Assets/image1.jpg',
+    './Assets/image2.jpg',
+    './Assets/image4.jpg',
+    './Assets/image5.jpg',
+    './Assets/image6.jpg'
+  ];
+
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  const nextSlide = () => {
+    setCurrentSlide((currentSlide + 1) % images.length);
+  };
+
+  const prevSlide = () => {
+    setCurrentSlide((currentSlide - 1 + images.length) % images.length);
+  };
+
   const [isScrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -117,7 +141,7 @@ const Home = () => {
           border: "1px solid #ccc",
           borderRadius: "20px",
           boxShadow: "0 2px 12px rgba(0, 0, 0, 0.25)",
-    
+          overflowY: 'auto'
         },
         overlay: {
           backgroundColor: "rgba(0, 0, 0, 0.5)",
@@ -192,34 +216,29 @@ const Home = () => {
           )}
       </div>
       
+      <div className="carousel-container">
+      <div className="carousel-slide" style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
+        {images.map((image, index) => (
+          <div key={index} className="slide">
+            <img src={image} alt={`Slide ${index}`} />
+          </div>
+        ))}
+      </div>
+      <div className="carousel-arrow carousel-arrow-left" onClick={prevSlide}>
+        &#8249;
+      </div>
+      <div className="carousel-arrow carousel-arrow-right" onClick={nextSlide}>
+        &#8250;
+      </div>
+    </div>
 
+
+
+ 
    
 
 
-    <div className="containerf">
-        <div className="box1">
-            
-            <img src="./Assets/image7.jpg" alt="Your Image" style={{marginLeft: "-90px"}}/>
-        </div>
-        <div className="box box-2" style={{marginRight: "66px"}}>
-            <div className="box-2-parts" >
-                <div className="box-inside-part">
-                    <img src="./Assets/image2.jpg" alt="Your Image"/>
-                </div>
-                <div className="box-inside-part" style={{marginTop: "-5px"}}>
-                    <img src="./Assets/image4.jpg" alt="Your Image"/>
-                </div>
-            </div>
-            <div className="box-2-partss" >
-                <div className="box-inside-part">
-                    <img src="./Assets/image5.jpg" alt="Your Image"/>
-                </div>
-                <div className="box-inside-parts">
-                    <img src="./Assets/image6.jpg" alt="Your Image"/>
-                </div>
-            </div>
-        </div>
-    </div> 
+   
     <div className="containers">
         <div className="boxs boxs1">
             <div className="containerpt-fluid" style={{marginLeft: "-80px"}}>
@@ -302,7 +321,7 @@ const Home = () => {
             <div class="b">INR 2,050 </div>
             <div class="d">per Adult</div>
             <button className="btns btn-outline-secondary ff" onClick={handleOpenModal} style={{marginTop:"0px"}}> Book Now</button>
-            <button class="btns btn-outline-info">Send Enquiry</button>
+            <button class="btns btn-outline-info" style={{    color: 'black'}}>Send Enquiry</button>
             </div>
            
             <div class="boxbook2">
@@ -590,7 +609,7 @@ and personal with nature during this journey</li>
                   Close 
                 </button>
                 
-                <button style={{marginLeft: "210px" , backgroundColor:"rgb(58,80,107)" , color :"white" , borderRadius: "5px"}} >Pay Now</button>
+                <button style={{marginLeft: "160px" , backgroundColor:"rgb(58,80,107)" , color :"white" , borderRadius: "5px"}} >Pay Now</button>
                 </div>
                 </Modal>
             
